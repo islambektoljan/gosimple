@@ -31,8 +31,11 @@ func main() {
 
 	// Запуск сервера
 	port := os.Getenv("PORT")
-	if port == "" {
-		port = "5000"
+	dbPort := os.Getenv("DB_PORT")
+	log.Println("Значение переменной PORT:", port)
+	log.Println("Значение переменной PORT:", dbPort)
+	if port == "" || port == "--" {
+		port = "8080"
 	}
 
 	log.Printf("🚀 Сервер запущен на http://localhost:%s", port)
