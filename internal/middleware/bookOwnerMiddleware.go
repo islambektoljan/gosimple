@@ -18,17 +18,14 @@ func BookOwnerMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Получаем ID текущего пользователя из контекста
 		userID := c.MustGet("userID").(uint)
 
-		// Проверяем, что текущий пользователь является владельцем книги
 		if book.UserID != userID {
 			c.JSON(http.StatusForbidden, gin.H{"message": "Вы не можете редактировать или удалять эту книгу"})
 			c.Abort()
 			return
 		}
 
-		// Если проверка прошла успешно, продолжаем обработку запроса
 		c.Next()
 	}
 }

@@ -44,10 +44,8 @@ func RegisterUser(c *gin.Context) {
 	}
 
 	var existingUser models.User
-	// Ищем пользователя, включая soft-deleted
 	if err := db.DB.Unscoped().Where("email = ?", input.Email).First(&existingUser).Error; err == nil {
 		if existingUser.DeletedAt.Valid {
-			// Восстанавливаем пользователя
 			existingUser.Name = input.Name
 			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 			if err != nil {
@@ -68,7 +66,6 @@ func RegisterUser(c *gin.Context) {
 			return
 		}
 	} else {
-		// Создаём нового пользователя
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Ошибка сервера"})

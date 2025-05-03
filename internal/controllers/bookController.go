@@ -23,13 +23,11 @@ func CreateBook(c *gin.Context) {
 
 	input.UserID = userID
 
-	// Создаём книгу
 	if err := db.DB.Create(&input).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Ошибка при создании книги"})
 		return
 	}
 
-	// Повторно загружаем книгу с данными пользователя
 	if err := db.DB.Preload("User").First(&input, input.ID).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Ошибка при загрузке пользователя"})
 		return

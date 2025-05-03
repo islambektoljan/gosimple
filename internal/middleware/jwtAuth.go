@@ -43,14 +43,12 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Проверка истечения токена
 		if exp, ok := claims["exp"].(float64); ok && exp < float64(time.Now().Unix()) {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Токен истёк"})
 			c.Abort()
 			return
 		}
 
-		// Приведение userID
 		idFloat, ok := claims["id"].(float64)
 		if !ok {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Неверный формат ID пользователя"})

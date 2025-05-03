@@ -30,7 +30,7 @@ func RoleMiddleware(requiredRole string) gin.HandlerFunc {
 			return []byte(secret), nil
 		})
 		if err != nil || !token.Valid {
-			log.Printf("Invalid token: %v\n", err) // Логирование ошибки
+			log.Printf("Invalid token: %v\n", err)
 			c.JSON(http.StatusUnauthorized, gin.H{"message": "Неверный токен"})
 			c.Abort()
 			return
@@ -59,7 +59,7 @@ func RoleMiddleware(requiredRole string) gin.HandlerFunc {
 		}
 
 		if user.Role != requiredRole {
-			log.Printf("User with ID %d tried to access admin route\n", userID) // Логирование попытки доступа
+			log.Printf("User with ID %d tried to access admin route\n", userID)
 			c.JSON(http.StatusForbidden, gin.H{"message": "Недостаточно прав"})
 			c.Abort()
 			return

@@ -12,7 +12,6 @@ func BookRoutes(router *gin.Engine) {
 	books.GET("", controllers.GetBooks)
 	books.GET("/:id", controllers.GetBook)
 
-	// Маршруты для авторизованных пользователей
 	books.Use(middleware.JWTAuthMiddleware())
 	books.POST("", controllers.CreateBook)
 
@@ -24,10 +23,8 @@ func BookRoutes(router *gin.Engine) {
 	//	books.DELETE("/:id", controllers.DeleteBook)
 	//}
 
-	// Маршруты для владельцев книги
 	books.Use(middleware.BookOwnerMiddleware())
 	{
-		// Владельцы книги могут редактировать и удалять только свои книги
 		books.PUT("/:id", controllers.UpdateBook)
 		books.DELETE("/:id", controllers.DeleteBook)
 	}
